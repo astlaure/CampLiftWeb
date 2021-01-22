@@ -1,0 +1,5 @@
+GET http://localhost:3000/api/journals/1
+Content-Type: application/json
+Authorization: Bearer: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiIiwiaWF0IjoxNjExMjkwNjU4fQ.PcCObBWzSCWB4vidjkqoEC07d0qkEwwsa2ztwItG2HY
+
+###
