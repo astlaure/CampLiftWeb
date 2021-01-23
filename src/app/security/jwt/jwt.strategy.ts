@@ -6,13 +6,13 @@ const JwtStrategy = new Strategy({
   secretOrKey: config.secret,
   jwtFromRequest: (req) => {
     // Mobile
-    const { authorization, 'X-XSRF-TOKEN': xsrfToken } = req.headers;
+    const { authorization, 'x-xsrf-token': xsrfToken } = req.headers;
     if (authorization && authorization.startsWith('Bearer: ')) {
       return authorization.replace('Bearer: ', '');
     }
 
     // Web
-    return `${req.cookies['lift-jwt']}.${xsrfToken}` || null;
+    return `${req.cookies['jwt-session']}.${xsrfToken}` || null;
   },
 }, (payload, done) => {
   // Payload is a semi user

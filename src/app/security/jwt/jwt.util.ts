@@ -3,11 +3,11 @@ import config from '../../core/config';
 
 interface JwtClaims {
   id: number;
-  username: string;
+  email: string;
   role: string;
 }
 
-const sign = async (claims: JwtClaims) => {
+const sign = async (claims: JwtClaims): Promise<String> => {
   return new Promise((resolve, reject) => {
     try {
       const token = jwt.sign(claims, config.secret, { algorithm: 'HS256' });
@@ -18,11 +18,11 @@ const sign = async (claims: JwtClaims) => {
   });
 };
 
-const validate = async (token: string) => {
+const validate = async (token: string): Promise<JwtClaims> => {
   return new Promise((resolve, reject) => {
     try {
       const claims = jwt.verify(token, config.secret, { algorithms: ['HS256'] });
-      resolve(claims);
+      resolve(claims as JwtClaims);
     } catch (err) {
       reject(err);
     }

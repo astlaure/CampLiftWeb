@@ -2,11 +2,22 @@ import express from 'express';
 import Logger from '../core/logger';
 import bcryptUtil from './bcrypt/bcrypt.util';
 import jwtUtil from './jwt/jwt.util';
-import passport from './security';
+import security from './security';
 import User from './users/user.model';
 
 const securityRouter = express.Router();
-const localMiddleware = passport.authenticate('local', { session: false });
+const localMiddleware = security.authenticate('local', { session: false });
+const jwtMiddleware = security.authenticate('jwt', { session: false });
+
+/**
+ * Return if the user is authenticated and the username of this user.
+ */
+securityRouter.get('/userinfo', jwtMiddleware, (req, res) => {
+  const { email } = req.user as User;
+  return res.status(200).json({
+    email,
+  });
+});
 
 /**
  * Authenticate with username/password (Lift Account)
@@ -18,11 +29,14 @@ securityRouter.post('/authenticate', localMiddleware, async (req, res) => {
   const user = req.user! as User;
   const token = await jwtUtil.sign({
     id: user.id,
-    username: user.username,
+    email: user.email,
     role: '',
   });
+  const parts = token.split('.');
+  res.cookie('jwt-session', `${parts[0]}.${parts[1]}`, { httpOnly: true });
+  res.cookie('XSRF-TOKEN', parts[2], { httpOnly: false });
   return res.status(200).json({
-    token,
+    email: user.email,
   });
 });
 

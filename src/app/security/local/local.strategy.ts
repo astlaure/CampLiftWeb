@@ -3,10 +3,12 @@ import bcryptUtil from '../bcrypt/bcrypt.util';
 import User from '../users/user.model';
 
 const LocalStrategy = new Strategy({
+  usernameField: 'email',
+  passwordField: 'password',
   session: true,
-}, async (username, password, done) => {
+}, async (email, password, done) => {
   try {
-    const user = await User.findOne({ where: { username } });
+    const user = await User.findOne({ where: { email } });
 
     if (!user) {
       return done(null, false);

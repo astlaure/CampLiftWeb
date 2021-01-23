@@ -53,4 +53,10 @@ module.exports = {
     }),
   ],
   devtool: 'source-map',
+  devServer: {
+    historyApiFallback: true,
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
+  },
 };

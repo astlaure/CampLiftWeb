@@ -8,7 +8,7 @@ const migration = {
         primaryKey: true,
         autoIncrement: true,
       },
-      username: {
+      email: {
         type: DataTypes.STRING(120),
         allowNull: false,
         unique: true,

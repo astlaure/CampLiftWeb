@@ -8,6 +8,13 @@ const login = (payload: any) => {
   };
 };
 
+const logout = () => {
+  return {
+    type: LOGOUT,
+  };
+};
+
 export default {
   login,
+  logout,
 };
